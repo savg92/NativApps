@@ -33,7 +33,7 @@ const ShoppingCart: React.FC<Props> = ({ onCheckout }) => {
 
 	return (
 		<div>
-			<h2>Shopping Cart</h2>
+			<h3>Shopping Cart</h3>
 			{cartItems.length === 0 ? (
 				<p>Your cart is empty.</p>
 			) : (
