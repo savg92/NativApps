@@ -38,10 +38,10 @@ const MovieType = styled.p`
 
 interface MovieCardProps {
   movie: {
-    Title: string;
-    Year: string;
-    Type: string;
-    Poster: string;
+    Title?: string;
+    Year?: string;
+    Type?: string;
+    Poster?: string;
   };
 }
 

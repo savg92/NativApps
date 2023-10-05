@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
-import { searchMovies, getMovieById} from '../services/services';
+import { getMovieById} from '../services/services';
 import MovieCard from '../components/MovieCard';
+import { Movie } from '../types';
 
 const MovieListContainer = styled.div`
   display: flex;
@@ -16,15 +17,17 @@ const MovieList = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
-      const data = await getMovieById(query);
-      setMovies(data);
+      if (query !== undefined) {
+				const data = await getMovieById(query);
+				setMovies(data);
+			}
     };
     fetchMovies();
   }, [query]);
 
   return (
     <MovieListContainer>
-      {movies.map((movie: any) => (
+      {movies.map((movie:Movie) => (
         <MovieCard key={movie.imdbID} movie={movie} />
       ))}
     </MovieListContainer>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { getCartItems, clearCartItems } from '../utils/localStorage';
-import { CartItem, Movie } from '../types';
+import { CartItem } from '../types';
 
 const ShoppingCart: React.FC = () => {
 	const [cartItems, setCartItems] = React.useState<CartItem[]>([]);
@@ -15,7 +15,7 @@ const ShoppingCart: React.FC = () => {
 		setCartItems([]);
 	};
 
-	const handleRemoveItem = (id: string) => {
+	const handleRemoveItem = (id: string | undefined) => {
 		const updatedCartItems = cartItems.filter((item) => item.imdbID !== id);
 		setCartItems(updatedCartItems);
 		clearCartItems();

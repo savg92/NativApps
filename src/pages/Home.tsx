@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-import { getMovies, searchMovies } from '../services/services';
+import { getMovies } from '../services/services';
 import { Movie, CartItem } from '../types';
 import { getCartItems, setCartItems } from '..//utils/localStorage';
 
@@ -63,17 +63,11 @@ const Home = () => {
 	const [movies, setMovies] = useState([]);
 	const [error, setError] = useState(false);
 	const [cartItems, setCartItemsState] = useState<CartItem[]>(getCartItems());
-	const navigate = useNavigate();
+	// const navigate = useNavigate();
 
 	const handleSearch = async () => {
 		try {
-			// const result = await searchMovies(searchQuery);
 			const result = await getMovies(searchQuery);
-			// setMovies(result.Search);
-			// setError('');
-			/* if result.Search exist setMovies(result.Search) else setMovies([]) and setError(true)
-      If "Response": "False" then setError(true)
-      */
 			if (result.Response === 'False') {
 				setError(true);
 				setMovies([]);
@@ -86,21 +80,6 @@ const Home = () => {
 			setError(true);
 		}
 	};
-
-	// const handleMovieClick = (imdbID: string) => {
-	//   navigate(`/movies/${imdbID}`);
-	// };
-
-	// const handleAddToCart = (movie: Movie) => {
-	//   const existingItem = cartItems.find((item) => item.imdbID === movie.imdbID);
-	//   if (existingItem) {
-	//     existingItem.quantity += 1;
-	//     setCartItemsState([...cartItems]);
-	//   } else {
-	//     setCartItemsState([...cartItems, { ...movie, quantity: 1 , price: 1}]);
-	//   }
-	//   setCartItems([...cartItems, { ...movie, quantity: 1, price: 1 }]);
-	// };
 
 	const handleAddToCart = (movie: Movie) => {
 		const existingItem = cartItems.find((item) => item.imdbID === movie.imdbID);
@@ -169,7 +148,7 @@ const Home = () => {
 						</button>
 					</div>
 				) : (
-					movies.map((movie) => (
+					movies.map((movie : CartItem) => (
 						<MovieItem key={movie.imdbID}>
 							<MoviePoster
 								src={movie.Poster}

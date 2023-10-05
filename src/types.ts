@@ -1,11 +1,11 @@
 // Define the types for a movie object
 interface Movie {
-  Title: string;
-  Year: string;
-  imdbID: string;
-  Type: string;
-  Poster: string;
-  Price?: any;
+  Title?: string;
+  Year?: string;
+  imdbID?: string;
+  Type?: string;
+  Poster?: string;
+  Price?: number | string | undefined
 }
 
 // Define the types for a movie search result object
@@ -15,9 +15,8 @@ interface MovieSearchResult {
   Response: string;
 }
 
-// Define the types for a shopping cart item object
-interface CartItem {
-  movie: Movie;
+// Define the types for a shopping cart item object extending the movie object
+interface CartItem extends Movie {
   quantity: number;
   rentalDate?: Date;
 }
