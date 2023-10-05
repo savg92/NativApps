@@ -1,31 +1,33 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { getCartItems, clearCartItems } from '../utils/localStorage';
 import { CartItem } from '../types';
 
+
 const Td = styled.td`
-	padding: 0.5rem;
-	// border: 1px solid #ccc;
-	display: table-cell;
-	text-align: center;
+padding: 0.5rem;
+// border: 1px solid #ccc;
+display: table-cell;
+text-align: center;
 `;
 
 const Th = styled.th`
-	padding: 0.5rem;
-	// border: 1px solid #ccc;
-	display: table-cell;
-	text-align: center;
+padding: 0.5rem;
+// border: 1px solid #ccc;
+display: table-cell;
+text-align: center;
 `;
 
 const FinalContainer = styled.div`
-	width: 30%;
-	display: flex;
-	justify-content: space-between;
+width: 30%;
+display: flex;
+justify-content: space-between;
 `;
 
 const ShoppingCart: React.FC = () => {
 	const [cartItems, setCartItems] = React.useState<CartItem[]>([]);
+	const navigate = useNavigate();
 
 	React.useEffect(() => {
 		setCartItems(getCartItems());
@@ -41,6 +43,12 @@ const ShoppingCart: React.FC = () => {
 		setCartItems(updatedCartItems);
 		clearCartItems();
 		setCartItems(updatedCartItems);
+	};
+
+	const handleConfirmOrder = () => {
+		alert('Order confirmed!');
+		clearCartItems();
+		navigate('/');
 	};
 
 	// const totalPrice = cartItems.reduce(
@@ -81,9 +89,7 @@ const ShoppingCart: React.FC = () => {
 					{/* <p>Total price: ${totalPrice.toFixed(2)}</p> */}
 					<FinalContainer>
 						<button onClick={handleClearCart}>Clear cart</button>
-						<Link to='/checkout'>
-							<button>Proceed to checkout</button>
-						</Link>
+						<button onClick={handleConfirmOrder}>Confirm order</button>
 					</FinalContainer>
 				</>
 			)}
