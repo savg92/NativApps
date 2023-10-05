@@ -1,7 +1,28 @@
 import React from 'react';
+import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { getCartItems, clearCartItems } from '../utils/localStorage';
 import { CartItem } from '../types';
+
+const Td = styled.td`
+	padding: 0.5rem;
+	// border: 1px solid #ccc;
+	display: table-cell;
+	text-align: center;
+`;
+
+const Th = styled.th`
+	padding: 0.5rem;
+	// border: 1px solid #ccc;
+	display: table-cell;
+	text-align: center;
+`;
+
+const FinalContainer = styled.div`
+	width: 30%;
+	display: flex;
+	justify-content: space-between;
+`;
 
 const ShoppingCart: React.FC = () => {
 	const [cartItems, setCartItems] = React.useState<CartItem[]>([]);
@@ -37,31 +58,33 @@ const ShoppingCart: React.FC = () => {
 					<table>
 						<thead>
 							<tr>
-								<th>Title</th>
-								<th>Price</th>
-								<th>Remove</th>
+								<Th>Title</Th>
+								<Th>Quantity</Th>
+								<Th>Remove</Th>
 							</tr>
 						</thead>
 						<tbody>
 							{cartItems.map((item) => (
 								<tr key={item.imdbID}>
-									<td>{item.Title}</td>
-									<td>{item.Price}</td>
-									<td>{item.quantity}</td>
-									<td>
+									<Td>{item.Title}</Td>
+									{/* <Td>{item.Price}</Td> */}
+									<Td>{item.quantity}</Td>
+									<Td>
 										<button onClick={() => handleRemoveItem(item.imdbID)}>
 											Remove
 										</button>
-									</td>
+									</Td>
 								</tr>
 							))}
 						</tbody>
 					</table>
 					{/* <p>Total price: ${totalPrice.toFixed(2)}</p> */}
-					<button onClick={handleClearCart}>Clear cart</button>
-					<Link to='/checkout'>
-						<button>Proceed to checkout</button>
-					</Link>
+					<FinalContainer>
+						<button onClick={handleClearCart}>Clear cart</button>
+						<Link to='/checkout'>
+							<button>Proceed to checkout</button>
+						</Link>
+					</FinalContainer>
 				</>
 			)}
 		</div>
