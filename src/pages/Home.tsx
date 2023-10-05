@@ -62,7 +62,7 @@ const Home = () => {
 	const [searchQuery, setSearchQuery] = useState('');
 	const [movies, setMovies] = useState([]);
 	const [error, setError] = useState(false);
-	const [cartItems, setCartItemsState] = useState<CartItem[]>(getCartItems());
+	const [cartItems, setCartItemsState] = useState<any>(getCartItems());
 	// const navigate = useNavigate();
 
 	const handleSearch = async () => {
@@ -114,7 +114,8 @@ const Home = () => {
 				existingItem.quantity -= 1;
 				setCartItemsState([...cartItems]);
 			}
-			setCartItems(cartItems.filter((item) => item.imdbID !== movie.imdbID));
+      const newCartItems = cartItems.filter((item) => item.imdbID !== movie.imdbID);
+			setCartItems(newCartItems);
 		}
 	};
 

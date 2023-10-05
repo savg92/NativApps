@@ -20,14 +20,16 @@ const ShoppingCart: React.FC<Props> = ({ onCheckout }) => {
 		clearCartItems();
 		setCartItems(updatedCartItems);
 		updatedCartItems.forEach((item) => {
+			if(item.imdbID !== undefined){
 			localStorage.setItem(item.imdbID, JSON.stringify(item));
+			}
 		});
 	};
 
-	const totalPrice = cartItems.reduce(
-		(acc, item) => acc + parseFloat(item.Price),
-		0
-	);
+	// const totalPrice = cartItems.reduce(
+	// 	(acc, item) => acc + parseFloat(item.Price),
+	// 	0
+	// );
 
 	return (
 		<div>
@@ -40,12 +42,12 @@ const ShoppingCart: React.FC<Props> = ({ onCheckout }) => {
 						<div key={item.imdbID}>
 							<h3>{item.Title}</h3>
 							<p>Price: {item.Price}</p>
-							<button onClick={() => handleRemoveItem(item.imdbID)}>
+							<button onClick={() => item.imdbID && handleRemoveItem(item.imdbID)}>
 								Remove
 							</button>
 						</div>
 					))}
-					<p>Total: {totalPrice.toFixed(2)}</p>
+					{/* <p>Total: {totalPrice.toFixed(2)}</p> */}
 					<button onClick={onCheckout}>Checkout</button>
 					<Link to='/'>Continue Shopping</Link>
 				</div>

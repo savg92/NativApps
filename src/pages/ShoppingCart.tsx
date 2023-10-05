@@ -22,10 +22,10 @@ const ShoppingCart: React.FC = () => {
 		setCartItems(updatedCartItems);
 	};
 
-	const totalPrice = cartItems.reduce(
-		(acc, item) => acc + parseFloat(item.Price),
-		0
-	);
+	// const totalPrice = cartItems.reduce(
+	// 	(acc, item) => acc + parseFloat(item.Price),
+	// 	0
+	// );
 
 	return (
 		<div>
@@ -57,7 +57,7 @@ const ShoppingCart: React.FC = () => {
 							))}
 						</tbody>
 					</table>
-					<p>Total price: ${totalPrice.toFixed(2)}</p>
+					{/* <p>Total price: ${totalPrice.toFixed(2)}</p> */}
 					<button onClick={handleClearCart}>Clear cart</button>
 					<Link to='/checkout'>
 						<button>Proceed to checkout</button>
