@@ -114,7 +114,7 @@ const Home = () => {
 				existingItem.quantity -= 1;
 				setCartItemsState([...cartItems]);
 			}
-      const newCartItems = cartItems.filter((item) => item.imdbID !== movie.imdbID);
+      		const newCartItems = cartItems.filter((item) => item.imdbID !== movie.imdbID);
 			setCartItems(newCartItems);
 		}
 	};

@@ -1,7 +1,7 @@
 import { MediaType } from '../types';
 
 const apikey = import.meta.env.VITE_API_KEY;
-const url = `http://www.omdbapi.com/?apikey=${apikey}&`
+const url = `https://www.omdbapi.com/?apikey=${apikey}&`
 
 
 export const getMovies = async (title: string, page: number = 1) => {
