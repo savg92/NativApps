@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getMovies } from '../services/services';
@@ -63,7 +63,11 @@ const Home = () => {
 	const [movies, setMovies] = useState([]);
 	const [error, setError] = useState(false);
 	const [cartItems, setCartItemsState] = useState<any>(getCartItems());
-	// const navigate = useNavigate();
+
+	useEffect(() => {
+		//previous state sets new state for cartItems
+		setCartItems(cartItems);
+	}, [cartItems]);
 
 	const handleSearch = async () => {
 		try {
@@ -89,7 +93,6 @@ const Home = () => {
 		} else {
 			setCartItemsState([...cartItems, { ...movie, quantity: 1 }]);
 		}
-		setCartItems([...cartItems]);
 	};
 
 	const handleRestoreCart = (movie: Movie) => {
@@ -100,7 +103,6 @@ const Home = () => {
 		} else {
 			setCartItemsState([...cartItems, { ...movie, quantity: 1 }]);
 		}
-		setCartItems([...cartItems]);
 	};
 
 	const handleRemoveFromCart = (movie: Movie) => {
@@ -114,7 +116,9 @@ const Home = () => {
 				existingItem.quantity -= 1;
 				setCartItemsState([...cartItems]);
 			}
-      		const newCartItems = cartItems.filter((item) => item.imdbID !== movie.imdbID);
+			const newCartItems = cartItems.filter(
+				(item) => item.imdbID !== movie.imdbID
+			);
 			setCartItems(newCartItems);
 		}
 	};
@@ -149,7 +153,7 @@ const Home = () => {
 						</button>
 					</div>
 				) : (
-					movies.map((movie : CartItem) => (
+					movies.map((movie: CartItem) => (
 						<MovieItem key={movie.imdbID}>
 							<MoviePoster
 								src={movie.Poster}
