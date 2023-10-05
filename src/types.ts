@@ -76,17 +76,24 @@ interface CheckoutFormProps {
   onClearCart: () => void;
 }
 
+enum MediaType {
+	Movie = 'movie',
+	Series = 'series',
+	Episode = 'episode',
+}
+
 export type {
-  Movie,
-  MovieSearchResult,
-  CartItem,
-  ShoppingCartContextType,
-  ShoppingCartProviderProps,
-  SearchBarProps,
-  MovieListProps,
-  MovieCardProps,
-  MovieDetailsProps,
-  ShoppingCartProps,
-  CartItemProps,
-  CheckoutFormProps,
+	Movie,
+	MovieSearchResult,
+	CartItem,
+	ShoppingCartContextType,
+	ShoppingCartProviderProps,
+	SearchBarProps,
+	MovieListProps,
+	MovieCardProps,
+	MovieDetailsProps,
+	ShoppingCartProps,
+	CartItemProps,
+	CheckoutFormProps,
+	MediaType,
 };

@@ -1,19 +1,8 @@
-const apikey = '5eec5adc';
+import { MediaType } from '../types';
+
+const apikey = import.meta.env.VITE_API_KEY;
 const url = `http://www.omdbapi.com/?apikey=${apikey}&`
 
-export enum MediaType {
-	Movie = 'movie',
-	Series = 'series',
-	Episode = 'episode',
-}
-
-export interface Movie {
-	imdbID: string;
-	Title: string;
-	Year: string;
-	Type: string;
-	Poster: string;
-}
 
 export const getMovies = async (title: string, page: number = 1) => {
   try {

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 import { getMovies, searchMovies } from '../services/services';
-import { Movie, CartItem } from '../../types';
+import { Movie, CartItem } from '../types';
 import { getCartItems, setCartItems } from '..//utils/localStorage';
 
 const SearchBar = styled.input`
@@ -152,7 +152,6 @@ const Home = () => {
 			<button onClick={handleSearch}>Buscar</button>
 			{error && <ErrorMessage>{error}</ErrorMessage>}
 			<MovieList>
-
 				{movies.length === 0 && error === false ? (
 					<div>
 						<p>Busque una película</p>
@@ -182,7 +181,9 @@ const Home = () => {
 									<MovieYear>{movie.Year}</MovieYear>
 									<MovieType>{movie.Type}</MovieType>
 									<ButtonsContainer>
-                    <button onClick={() => handleRemoveFromCart(movie)}>Remove</button>
+										<button onClick={() => handleRemoveFromCart(movie)}>
+											Remove
+										</button>
 										<button onClick={() => handleRestoreCart(movie)}>
 											{' '}
 											-{' '}

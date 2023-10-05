@@ -1,5 +1,10 @@
 const CART_ITEMS_KEY = 'cartItems';
 
+// check if the cartItems key exists in localStorage, if not, set it to an empty array
+if (!localStorage.getItem(CART_ITEMS_KEY)) {
+  localStorage.setItem(CART_ITEMS_KEY, JSON.stringify([]));
+}
+
 export function getCartItems() {
   const cartItems = localStorage.getItem(CART_ITEMS_KEY);
   return cartItems ? JSON.parse(cartItems) : [];
