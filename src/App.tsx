@@ -37,14 +37,14 @@ function App() {
 
 	return (
 		<AppContainer>
-      <Nav>
-        <Logo onClick={handleClick}>Blockbuster</Logo>
-        <LinksContainer>
-          <Link to="/">Home</Link>
-          <Link to="/cart">Cart</Link>
-        </LinksContainer>
-      </Nav>
-      
+			<Nav>
+				<Logo onClick={handleClick}>Blockbuster</Logo>
+				<LinksContainer>
+					<Link to='/'>Home</Link>
+					<Link to='/cart'>Cart</Link>
+				</LinksContainer>
+			</Nav>
+
 			<Outlet />
 		</AppContainer>
 	);
