@@ -63,6 +63,3 @@ The company Blockbuster requests the construction of a web application oriented 
 ## Links
 - Repository: [https://github.com/savg92/NativApps]
 - Demo: [https://nativ-apps.vercel.app]
-
-```
-
