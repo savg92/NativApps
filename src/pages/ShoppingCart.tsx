@@ -51,6 +51,7 @@ const ShoppingCart: React.FC = () => {
 		navigate('/');
 	};
 
+	
 	// const totalPrice = cartItems.reduce(
 	// 	(acc, item) => acc + parseFloat(item.Price),
 	// 	0
@@ -67,15 +68,23 @@ const ShoppingCart: React.FC = () => {
 						<thead>
 							<tr>
 								<Th>Title</Th>
+								<Th>Rent/Buy</Th>
+								<Th>Return Date (if renting)</Th>
 								<Th>Quantity</Th>
 								<Th>Remove</Th>
 							</tr>
 						</thead>
 						<tbody>
-							{cartItems.map((item) => (
-								<tr key={item.imdbID}>
-									<Td>{item.Title}</Td>
-									{/* <Td>{item.Price}</Td> */}
+							{cartItems.map((item, index) => (
+								<tr key={`${index}${item.imdbID}`}>
+									<Td>{item.movieData.Title}</Td>
+									<Td>{item.option}</Td>
+									<Td>{
+										item.option === 'Rent' ? 
+										item.returnDate.toString()
+										: 
+										'N/A'
+									}</Td>
 									<Td>{item.quantity}</Td>
 									<Td>
 										<button onClick={() => handleRemoveItem(item.imdbID)}>

@@ -3,7 +3,9 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { getMovies } from '../services/services';
 import { Movie, CartItem } from '../types';
-import { getCartItems, setCartItems } from '..//utils/localStorage';
+import { getCartItems, setCartItems } from '../utils/localStorage';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
 
 const SearchBar = styled.input`
 	padding: 0.5rem;
@@ -55,7 +57,17 @@ const ButtonsContainer = styled.div`
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	justify-content: center;
+	gap: 0.5rem;
+	margin: 0.5rem 0rem;
+`;
+
+const BuyRentContainer = styled.div`
+	// width: 30%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	gap: 1rem;
+	margin: 0.5rem 0rem;
 `;
 
 const Home = () => {
@@ -65,7 +77,6 @@ const Home = () => {
 	const [cartItems, setCartItemsState] = useState<any>(getCartItems());
 
 	useEffect(() => {
-		//previous state sets new state for cartItems
 		setCartItems(cartItems);
 	}, [cartItems]);
 
@@ -85,41 +96,65 @@ const Home = () => {
 		}
 	};
 
-	const handleAddToCart = (movie: Movie) => {
-		const existingItem = cartItems.find((item) => item.imdbID === movie.imdbID);
+	const handleRemoveFromCart = (movie: Movie) => {
+		const existingItem = cartItems.find(
+			(item) => item.movieData.imdbID === movie.imdbID
+		);
+		if (existingItem) {
+			existingItem.quantity > 1
+				? (existingItem.quantity -= 1)
+				: cartItems.filter((item: CartItem) => item.imdbID !== movie.imdbID);
+			setCartItemsState([...cartItems]);
+		} else {
+			setCartItemsState([...cartItems, { ...movie, quantity: 1 }]);
+		}
+	};
+
+	const handleAddToCart = (movieData: Movie, option: string) => {
+		const existingItem = cartItems.find(
+			(item) => item.movieData.imdbID === movieData.imdbID
+		);
+		if (existingItem) {
+			if (existingItem.option !== option) {
+				existingItem.option = option;
+				setCartItemsState([...cartItems]);
+			}
+		} else {
+			if (option === 'Rent') {
+				const date = new Date();
+				date.setDate(date.getDate() + 2);
+				const returnDate = date.toLocaleDateString('es-Ar');
+				setCartItemsState([
+					...cartItems,
+					{ movieData, quantity: 1, option, returnDate },
+				]);
+			} else {
+				setCartItemsState([...cartItems, { movieData, quantity: 1, option }]);
+			}
+		}
+	};
+
+	const handleReturnDateChange = (movie: Movie, returnDate: Date) => {
+		const existingItem = cartItems.find(
+			(item) => item.movieData.imdbID === movie.imdbID && item.option === 'Rent'
+		);
+		const formattedDate = new Date(returnDate);
+		formattedDate.setDate(formattedDate.getDate());
+		if (existingItem) {
+			existingItem.returnDate = formattedDate.toLocaleDateString('es-Ar');
+			setCartItemsState([...cartItems]);
+		}
+	};
+
+	const handleAddQuantityToCart = (movie: Movie) => {
+		const existingItem = cartItems.find(
+			(item) => item.movieData.imdbID === movie.imdbID
+		);
 		if (existingItem) {
 			existingItem.quantity += 1;
 			setCartItemsState([...cartItems]);
 		} else {
 			setCartItemsState([...cartItems, { ...movie, quantity: 1 }]);
-		}
-	};
-
-	const handleRestoreCart = (movie: Movie) => {
-		const existingItem = cartItems.find((item) => item.imdbID === movie.imdbID);
-		if (existingItem) {
-			existingItem.quantity -= 1;
-			setCartItemsState([...cartItems]);
-		} else {
-			setCartItemsState([...cartItems, { ...movie, quantity: 1 }]);
-		}
-	};
-
-	const handleRemoveFromCart = (movie: Movie) => {
-		const existingItem = cartItems.find((item) => item.imdbID === movie.imdbID);
-		if (existingItem) {
-			if (existingItem.quantity === 1) {
-				setCartItemsState(
-					cartItems.filter((item) => item.imdbID !== movie.imdbID)
-				);
-			} else {
-				existingItem.quantity -= 1;
-				setCartItemsState([...cartItems]);
-			}
-			const newCartItems = cartItems.filter(
-				(item) => item.imdbID !== movie.imdbID
-			);
-			setCartItems(newCartItems);
 		}
 	};
 
@@ -164,17 +199,85 @@ const Home = () => {
 								<div>
 									<MovieYear>{movie.Year}</MovieYear>
 									<MovieType>{movie.Type}</MovieType>
-									<ButtonsContainer>
-										<button onClick={() => handleRemoveFromCart(movie)}>
-											Remove
-										</button>
-										<button onClick={() => handleRestoreCart(movie)}>
-											{' '}
-											-{' '}
-										</button>
-										<p>{movie.quantity}</p>
-										<button onClick={() => handleAddToCart(movie)}> + </button>
-									</ButtonsContainer>
+
+									<div>
+										<BuyRentContainer>
+											<button onClick={() => handleAddToCart(movie, 'Buy')}>
+												Buy
+											</button>
+											<button onClick={() => handleAddToCart(movie, 'Rent')}>
+												Rent
+											</button>
+										</BuyRentContainer>
+										{cartItems.find(
+											(item: CartItem) =>
+												item.movieData.imdbID === movie.imdbID &&
+												item.option === 'Rent'
+										) ? (
+											<div>
+												<div>
+													<DatePicker
+														onChange={(date: Date) =>
+															handleReturnDateChange(movie, date)
+														}
+														minDate={new Date()}
+														dateFormat='dd/MM/yyyy'
+														required
+													/>
+												</div>
+												<ButtonsContainer>
+													<button onClick={() => handleRemoveFromCart(movie)}>
+														{' '}
+														-{' '}
+													</button>
+													<p>
+														{
+															cartItems.find(
+																(item: CartItem) =>
+																	item.movieData.imdbID === movie.imdbID &&
+																	item.option === 'Rent'
+															)?.quantity
+														}
+													</p>
+													<button
+														onClick={() => handleAddQuantityToCart(movie)}
+													>
+														{' '}
+														+{' '}
+													</button>
+												</ButtonsContainer>
+											</div>
+										) : (
+											<span></span>
+										)}
+										{cartItems.find(
+											(item: CartItem) =>
+												item.movieData.imdbID === movie.imdbID &&
+												item.option === 'Buy'
+										) ? (
+											<ButtonsContainer>
+												<button onClick={() => handleRemoveFromCart(movie)}>
+													{' '}
+													-{' '}
+												</button>
+												<p>
+													{
+														cartItems.find(
+															(item: CartItem) =>
+																item.movieData.imdbID === movie.imdbID &&
+																item.option === 'Buy'
+														)?.quantity
+													}
+												</p>
+												<button onClick={() => handleAddQuantityToCart(movie)}>
+													{' '}
+													+{' '}
+												</button>
+											</ButtonsContainer>
+										) : (
+											<span></span>
+										)}
+									</div>
 								</div>
 							</div>
 						</MovieItem>

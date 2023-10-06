@@ -17,8 +17,10 @@ interface MovieSearchResult {
 
 // Define the types for a shopping cart item object extending the movie object
 interface CartItem extends Movie {
-  quantity: number;
-  rentalDate?: Date;
+	quantity: number;
+	movieData?: Movie;
+	option: string;
+	returnDate?: Date;
 }
 
 // Define the types for the shopping cart context

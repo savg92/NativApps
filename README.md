@@ -23,4 +23,5 @@ La empresa Blockbuster solicita la construcción de un aplicativo web orientado 
 - React Router[https://reactrouter.com/]
 - Typescript[https://www.typescriptlang.org/]
 - Styled Components[https://styled-components.com/]
+- DatePickers[https://reactdatepicker.com/]
 
